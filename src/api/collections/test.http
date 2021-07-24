@@ -1,0 +1,3 @@
+@baseUrl = http://api.weatherstack.com/current?access_key=7987376934df6cd509b578c9ad6d7dff
+
+GET {{baseUrl}}
