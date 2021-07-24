@@ -4,6 +4,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import ChooseScreen from '../screens/ChooseScreen';
 import DisplayTempScreen from '../screens/DisplayTempScreen';
 import PlacesScreen from '../screens/PlacesScreen';
+import PlacesStack from './PlacesStack';
 
 const Drawer = createDrawerNavigator();
 
@@ -26,8 +27,8 @@ const MainDrawer = () => {
         options={{drawerLabel: 'Thời tiết'}}
       />
       <Drawer.Screen
-        name="Places Screen"
-        component={PlacesScreen}
+        name="Places Stack"
+        component={PlacesStack}
         options={{drawerLabel: 'Chọn vị trí'}}
       />
     </Drawer.Navigator>

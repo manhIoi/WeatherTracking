@@ -93,7 +93,7 @@ const DisplayTempScreen = () => {
           </View>
           <TouchableOpacity
             style={{padding: 10, backgroundColor: 'orange'}}
-            onPress={() => navigation.navigate('Places Screen')}>
+            onPress={() => navigation.navigate('Places Stack')}>
             <Text>Move to place Screen</Text>
           </TouchableOpacity>
         </View>

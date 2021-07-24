@@ -1,21 +1,27 @@
-import React from 'react';
-import {View, Text, TouchableOpacity, AsyncStorage} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  AsyncStorage,
+  FlatList,
+} from 'react-native';
 import MapView, {Callout} from 'react-native-maps';
 import dimensions from '../constants/dimension';
 import {Marker} from 'react-native-maps';
 import STATE_DATA from '../data/state';
-import {TextInput} from 'react-native-gesture-handler';
+import {ScrollView, TextInput} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
 import {StyleSheet} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {setPlace} from '../redux/actions/placeAction';
 import {PlaceType, StateType} from '../types';
-import {StackNavigationProp} from '@react-navigation/stack';
 import {DrawerNavigationProp} from '@react-navigation/drawer';
 
 const PlacesScreen = () => {
   const navigation = useNavigation<DrawerNavigationProp<any>>();
+  const [searchInput, setSearchInput] = useState<string>('');
   const dispatch = useDispatch();
 
   const viewTemp = async (state: StateType) => {
@@ -28,26 +34,30 @@ const PlacesScreen = () => {
     navigation.navigate('Display Temp Screen');
   };
 
+  useEffect(() => {
+    console.log(searchInput);
+  }, [searchInput]);
+
   return (
     <View style={{flex: 1}}>
       {/* Header */}
       <View style={styles.headerContainer}>
-        <View style={styles.btnSidebar}>
-          <TouchableOpacity
-            style={{padding: 10}}
-            onPress={() => navigation.toggleDrawer()}>
-            <Feather name="menu" size={20} color="#fff" />
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.inputContainer}>
-          <Feather name="search" size={18} color="gray" />
-          <TextInput placeholder="Tìm kiếm nơi muốn xem" textAlign="center" />
-        </View>
+        <TouchableOpacity
+          style={styles.btnSidebar}
+          onPress={() => navigation.toggleDrawer()}>
+          <Feather name="menu" size={20} color="#fff" />
+        </TouchableOpacity>
+        <Text style={styles.textTitle}>Tìm kiếm quoanh đây ?</Text>
+        <TouchableOpacity
+          style={styles.btnSidebar}
+          onPress={() => navigation.navigate('Search Place Screen')}>
+          <Feather name="search" size={20} color="#fff" />
+        </TouchableOpacity>
       </View>
+
       {/* Map View */}
       <MapView
-        style={{flex: 1}}
+        style={{flex: 1, zIndex: -1}}
         initialCamera={{
           zoom: 7,
           center: {latitude: 21.027, longitude: 105.834},
@@ -91,27 +101,17 @@ const styles = StyleSheet.create({
     height: 120,
     paddingTop: 25,
     backgroundColor: '#e29baa',
-    justifyContent: 'center',
-    position: 'relative',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   btnSidebar: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    justifyContent: 'center',
-    marginTop: 25,
+    padding: 10,
   },
-  inputContainer: {
-    alignSelf: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: 'gray',
-    height: 40,
-    width: '60%',
-    borderRadius: 4,
-    backgroundColor: '#fff',
-    flexDirection: 'row',
-    alignItems: 'center',
+  textTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff',
   },
 });
 
