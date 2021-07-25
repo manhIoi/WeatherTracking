@@ -11,18 +11,25 @@ import dimensions from '../constants/dimension';
 import {Marker} from 'react-native-maps';
 import STATE_DATA from '../data/state';
 import {ScrollView, TextInput} from 'react-native-gesture-handler';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
 import {StyleSheet} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {setPlace} from '../redux/actions/placeAction';
 import {PlaceType, StateType} from '../types';
 import {DrawerNavigationProp} from '@react-navigation/drawer';
+import MyMarker from '../components/MyMarker';
+import {useRef} from 'react';
 
 const PlacesScreen = () => {
   const navigation = useNavigation<DrawerNavigationProp<any>>();
-  const [searchInput, setSearchInput] = useState<string>('');
   const dispatch = useDispatch();
+  const route = useRoute();
+  const {params} = route;
+  const [selectedPlace, setSelectedPlace] = useState<StateType | null>(
+    params !== undefined ? params.placeSelected : null,
+  );
+  const refMapView = useRef<MapView>(null);
 
   const viewTemp = async (state: StateType) => {
     const place: PlaceType = {
@@ -35,8 +42,27 @@ const PlacesScreen = () => {
   };
 
   useEffect(() => {
-    console.log(searchInput);
-  }, [searchInput]);
+    if (params) {
+      if (params.placeSelected) {
+        console.log('set Param', params.placeSelected);
+        setSelectedPlace({
+          ...params.placeSelected,
+        });
+      }
+    }
+  }, [params]);
+
+  useEffect(() => {
+    if (selectedPlace?.isoCode) {
+      refMapView.current?.animateToRegion({
+        latitude: parseFloat(selectedPlace?.latitude),
+        longitude: parseFloat(selectedPlace?.longitude),
+        latitudeDelta: 0.0922,
+        longitudeDelta:
+          0.0922 + dimensions.widthWindow / dimensions.heighWindow,
+      });
+    }
+  }, [selectedPlace]);
 
   return (
     <View style={{flex: 1}}>
@@ -57,6 +83,7 @@ const PlacesScreen = () => {
 
       {/* Map View */}
       <MapView
+        ref={refMapView}
         style={{flex: 1, zIndex: -1}}
         initialCamera={{
           zoom: 7,
@@ -72,23 +99,12 @@ const PlacesScreen = () => {
             0.0922 + dimensions.widthWindow / dimensions.heighWindow,
         }}>
         {STATE_DATA.map(state => (
-          <Marker
-            style={{maxWidth: 100, maxHeight: 100, backgroundColor: 'orange'}}
-            key={state.isoCode}
-            coordinate={{
-              latitude: parseFloat(state.latitude),
-              longitude: parseFloat(state.longitude),
-            }}>
-            <Callout onPress={() => viewTemp(state)}>
-              <Text
-                style={{
-                  color: '#e29baa',
-                  maxWidth: 100,
-                }}>
-                Xem thời tiết {state.name}
-              </Text>
-            </Callout>
-          </Marker>
+          <MyMarker
+            callbackMarker={() => setSelectedPlace(state)}
+            state={state}
+            callbackCallout={() => viewTemp(state)}
+            showCallout={state.isoCode === selectedPlace?.isoCode}
+          />
         ))}
       </MapView>
     </View>

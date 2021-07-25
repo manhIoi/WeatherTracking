@@ -9,28 +9,60 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import STATE_DATA from '../data/state';
 import {useState} from 'react';
 import {useEffect} from 'react';
+import {CityType, StateType} from '../types';
 
 const SearchScreen = () => {
   const navigation = useNavigation<StackNavigationProp<any>>();
   const [searchInput, setSearchInput] = useState<string>('');
-  const [places, setPlaces] = useState<string[][]>([]);
+  const [places, setPlaces] = useState<StateType[]>([]);
+
+  const fakeApi = async () => {
+    try {
+      const test = await new Promise(() => {
+        return setTimeout(() => {
+          console.log('is Faking');
+          setPlaces(STATE_DATA);
+        }, 500);
+      });
+      console.log('fake done');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     const initSearchScreen = () => {
-      const placesClone = [];
-      STATE_DATA.map(state =>
-        state.cities.map(citi => {
-          placesClone.push(`${state.name}, ${citi.name}`);
-        }),
-      );
-      setPlaces(placesClone);
+      fakeApi();
     };
     initSearchScreen();
   }, []);
 
   useEffect(() => {
     // filter places
+    let clonePlaces: StateType[] = [];
+    // console.log(searchInput, '-----------------------------------------------');
+    STATE_DATA.forEach(place => {
+      let cloneCities: CityType[] = [];
+
+      place.cities.forEach(citi => {
+        if (
+          (citi.name + ' ' + place.name).search(searchInput) > -1 ||
+          (place.name + ' ' + citi.name).search(searchInput) > -1
+        ) {
+          cloneCities.push(citi);
+        }
+      });
+      if (cloneCities) {
+        clonePlaces.push({
+          ...place,
+          cities: cloneCities,
+        });
+      }
+    });
+    // console.log(clonePlaces);
+    setPlaces(clonePlaces);
   }, [searchInput]);
+
   return (
     <View style={styles.screen}>
       <View style={styles.headerBox}>
@@ -58,17 +90,24 @@ const SearchScreen = () => {
 
       <ScrollView style={{width: dimensions.widthWindow}}>
         {places &&
-          places.map(place => (
-            <View
-              style={{
-                paddingVertical: 10,
-                paddingHorizontal: 5,
-                borderTopWidth: 1,
-                borderColor: 'gray',
-              }}>
-              <Text> {place}</Text>
-            </View>
-          ))}
+          places.map(place =>
+            place.cities.map(citi => (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('Places Screen', {placeSelected: place})
+                }
+                style={{
+                  paddingVertical: 10,
+                  paddingHorizontal: 5,
+                  borderTopWidth: 1,
+                  borderColor: 'gray',
+                }}>
+                <Text>
+                  {place.name}, {citi.name}
+                </Text>
+              </TouchableOpacity>
+            )),
+          )}
       </ScrollView>
     </View>
   );
