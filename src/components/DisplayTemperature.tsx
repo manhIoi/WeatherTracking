@@ -11,7 +11,7 @@ const DisplayTemperature = (props: DisplayTemperaturePropsType) => {
   return (
     <View style={{justifyContent: 'center', alignItems: 'center'}}>
       <Text style={{fontSize: 70, fontWeight: '300', color: '#fff'}}>
-        {temperature.temperature}°
+        {temperature.temperature}°C
       </Text>
       <Text style={{fontSize: 30, color: '#fff'}}>
         {temperature.weather_descriptions[0]}

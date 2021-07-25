@@ -30,6 +30,7 @@ const ChooseScreen = () => {
       if (place) {
         dispatch(setPlace(JSON.parse(place)));
         navigation.replace('Main Drawer');
+        // navigation.navigate('Main Drawer');
       }
     } catch (error) {
       console.log(error);

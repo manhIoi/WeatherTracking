@@ -21,13 +21,48 @@ import {useRef} from 'react';
 import {Alert} from 'react-native';
 import {useSelector} from 'react-redux';
 import {StackNavigationProp} from '@react-navigation/stack';
+import Feather from 'react-native-vector-icons/Feather';
+import {DrawerNavigationProp} from '@react-navigation/drawer';
+
+const tempClone = {
+  cloudcover: 50,
+  feelslike: 37,
+  humidity: 56,
+  is_day: 'no',
+  observation_time: '11:53 AM',
+  precip: 0,
+  pressure: 1000,
+  temperature: 32,
+  uv_index: 8,
+  visibility: 10,
+  weather_code: 116,
+  weather_descriptions: ['Partly cloudy'],
+  weather_icons: [
+    'https://assets.weatherstack.com/images/wsymbols01_png_64/wsymbol_0004_black_low_cloud.png',
+  ],
+  wind_degree: 190,
+  wind_dir: 'S',
+  wind_speed: 9,
+};
+
+const locationClone = {
+  country: 'Vietnam',
+  lat: '16.068',
+  localtime: '2021-07-25 18:53',
+  localtime_epoch: 1627239180,
+  lon: '108.221',
+  name: 'Da Nang',
+  region: '',
+  timezone_id: 'Asia/Ho_Chi_Minh',
+  utc_offset: '7.0',
+};
 
 const DisplayTempScreen = () => {
-  const navigation = useNavigation<StackNavigationProp<any>>();
+  const navigation = useNavigation<DrawerNavigationProp<any>>();
   const [locations, setLocations] = useState<LocationType[]>([]);
   const [temperatures, setTemperatures] = useState<TemperatureType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const ref = useRef(null);
+  const ref = useRef<ScrollView>(null);
   const place = useSelector(state => state.place);
 
   const fetchWeatherData = async (place: {
@@ -85,17 +120,26 @@ const DisplayTempScreen = () => {
         backgroundColor="transparent"
         barStyle="light-content"
       />
+      <View style={styles.headerBox}>
+        <TouchableOpacity
+          style={styles.btn}
+          onPress={() => navigation.toggleDrawer()}>
+          <Feather name="menu" size={24} color="#fff" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.btn}
+          onPress={() =>
+            navigation.navigate('Places Stack', {screen: 'Search Place Screen'})
+          }>
+          <Feather name="search" size={24} color="#fff" />
+        </TouchableOpacity>
+      </View>
       {!isLoading && (
         <View style={styles.overLayLoading}>
           <View style={styles.containerLoadding}>
             <Text style={{color: '#e29baa', marginBottom: 6}}>Loadding...</Text>
             <ActivityIndicator size="large" color="#e29baa" />
           </View>
-          <TouchableOpacity
-            style={{padding: 10, backgroundColor: 'orange'}}
-            onPress={() => navigation.navigate('Places Stack')}>
-            <Text>Move to place Screen</Text>
-          </TouchableOpacity>
         </View>
       )}
       <ScrollView
@@ -109,6 +153,35 @@ const DisplayTempScreen = () => {
           ))}
       </ScrollView>
     </>
+
+    // <>
+    //   <StatusBar
+    //     translucent
+    //     backgroundColor="transparent"
+    //     barStyle="light-content"
+    //   />
+    //   <View style={styles.headerBox}>
+    //     <TouchableOpacity
+    //       style={styles.btn}
+    //       onPress={() => navigation.toggleDrawer()}>
+    //       <Feather name="menu" size={24} color="#fff" />
+    //     </TouchableOpacity>
+    //     <TouchableOpacity
+    //       style={styles.btn}
+    //       onPress={() =>
+    //         navigation.navigate('Places Stack', {screen: 'Search Place Screen'})
+    //       }>
+    //       <Feather name="search" size={24} color="#fff" />
+    //     </TouchableOpacity>
+    //   </View>
+    //   <ScrollView
+    //     horizontal
+    //     pagingEnabled
+    //     showsHorizontalScrollIndicator={false}
+    //     ref={ref}>
+    //     <TempItem temperature={tempClone} location={locationClone} />
+    //   </ScrollView>
+    // </>
   );
 };
 
@@ -118,13 +191,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: dimensions.widthWindow,
     height: dimensions.heighWindow,
+    backgroundColor: 'rgba(0,0,0,0.8)',
   },
   containerLoadding: {
     height: 100,
     width: 100,
-    backgroundColor: '#1111119c',
-    borderRadius: 10,
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+  btn: {
+    padding: 20,
+  },
+  headerBox: {
+    width: dimensions.widthWindow,
+    top: 25,
+    height: 65,
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    zIndex: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
 });

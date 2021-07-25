@@ -53,7 +53,9 @@ const PlacesScreen = () => {
   }, [params]);
 
   useEffect(() => {
+    console.log(selectedPlace);
     if (selectedPlace?.isoCode) {
+      console.log('???', refMapView);
       refMapView.current?.animateToRegion({
         latitude: parseFloat(selectedPlace?.latitude),
         longitude: parseFloat(selectedPlace?.longitude),
@@ -86,14 +88,14 @@ const PlacesScreen = () => {
         ref={refMapView}
         style={{flex: 1, zIndex: -1}}
         initialCamera={{
-          zoom: 7,
-          center: {latitude: 21.027, longitude: 105.834},
+          zoom: 6,
+          center: {latitude: 16.749, longitude: 107.185},
           pitch: 0.8,
           heading: 0.8,
         }}
         initialRegion={{
-          latitude: 21.027,
-          longitude: 105.834,
+          latitude: 16.749,
+          longitude: 107.185,
           latitudeDelta: 0.0922,
           longitudeDelta:
             0.0922 + dimensions.widthWindow / dimensions.heighWindow,
