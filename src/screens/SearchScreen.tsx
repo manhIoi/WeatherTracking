@@ -10,6 +10,8 @@ import STATE_DATA from '../data/state';
 import {useState} from 'react';
 import {useEffect} from 'react';
 import {CityType, StateType} from '../types';
+import rootColor from '../constants/color';
+import rootFont from '../constants/fonts';
 
 const SearchScreen = () => {
   const navigation = useNavigation<StackNavigationProp<any>>();
@@ -96,13 +98,14 @@ const SearchScreen = () => {
                 onPress={() =>
                   navigation.navigate('Places Screen', {placeSelected: place})
                 }
-                style={{
-                  paddingVertical: 10,
-                  paddingHorizontal: 5,
-                  borderTopWidth: 1,
-                  borderColor: 'gray',
-                }}>
-                <Text>
+                style={styles.placeItem}>
+                <Feather
+                  name="map-pin"
+                  size={18}
+                  color="#111"
+                  style={styles.placeItemIcon}
+                />
+                <Text style={styles.text}>
                   {place.name}, {citi.name}
                 </Text>
               </TouchableOpacity>
@@ -123,7 +126,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#e29baa',
+    backgroundColor: rootColor.rootColor,
     flexDirection: 'row',
   },
   searchBar: {
@@ -137,11 +140,30 @@ const styles = StyleSheet.create({
   searchInput: {
     backgroundColor: '#fff',
     flex: 1,
+    fontFamily: rootFont.medium,
   },
   backBtn: {
     position: 'absolute',
     left: 0,
     padding: 10,
+  },
+  text: {
+    fontFamily: rootFont.regular,
+    fontSize: 15,
+  },
+  placeItem: {
+    paddingVertical: 10,
+    paddingHorizontal: 8,
+    borderTopWidth: 1,
+    borderColor: 'gray',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  placeItemIcon: {
+    marginRight: 8,
+    backgroundColor: 'lightgray',
+    padding: 8,
+    borderRadius: 50,
   },
 });
 

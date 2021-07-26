@@ -1,11 +1,16 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {View, Text, ActivityIndicator} from 'react-native';
+import rootColor from '../constants/color';
 
 const SplashScreen = () => {
   return (
     <View style={styles.screen}>
-      <ActivityIndicator style={styles.loading} size="large" color="#e29baa" />
+      <ActivityIndicator
+        style={styles.loading}
+        size="large"
+        color={rootColor.rootColor}
+      />
     </View>
   );
 };

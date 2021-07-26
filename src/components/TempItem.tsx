@@ -5,6 +5,7 @@ import rootImages from '../assets/images/index';
 import dimensions from '../constants/dimension';
 import Description from './Description';
 import DisplayTemperature from './DisplayTemperature';
+import rootFont from '../constants/fonts';
 
 interface TempItemProps {
   temperature: TemperatureType;
@@ -12,6 +13,15 @@ interface TempItemProps {
 }
 
 const TempItem = ({temperature, location}: TempItemProps) => {
+  let today = new Date();
+  const formatDate =
+    String(today.getDate()).padStart(2, '0') +
+    '/' +
+    String(today.getMonth()).padStart(2, '0') +
+    '/' +
+    String(today.getFullYear()).padStart(2, '0');
+  console.log(formatDate);
+
   return (
     <ImageBackground
       source={
@@ -31,10 +41,10 @@ const TempItem = ({temperature, location}: TempItemProps) => {
               style={{
                 marginTop: dimensions.heightHeaderDisplayTempScreen,
               }}>
-              <Text style={[styles.text, {fontSize: 18}]}>
+              <Text style={[styles.text, {fontSize: 20}]}>
                 {location.name} / {location.country}
               </Text>
-              <Text style={[styles.text, {fontSize: 16}]}>25/3/2021</Text>
+              <Text style={[styles.text, {fontSize: 18}]}>{formatDate}</Text>
             </View>
           )}
         </View>
@@ -75,7 +85,7 @@ const styles = StyleSheet.create({
   },
   text: {
     marginLeft: 20,
-    fontWeight: 'bold',
+    fontFamily: rootFont.semiBold,
     color: '#fff',
     marginBottom: 5,
   },

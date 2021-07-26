@@ -20,9 +20,9 @@ import TempItem from '../components/TempItem';
 import {useRef} from 'react';
 import {Alert} from 'react-native';
 import {useSelector} from 'react-redux';
-import {StackNavigationProp} from '@react-navigation/stack';
 import Feather from 'react-native-vector-icons/Feather';
 import {DrawerNavigationProp} from '@react-navigation/drawer';
+import rootColor from '../constants/color';
 
 const tempClone = {
   cloudcover: 50,
@@ -71,7 +71,7 @@ const DisplayTempScreen = () => {
     city: any;
   }) => {
     console.log('is calling');
-
+    setIsLoading(false);
     const result = await place.state.cities.map((city: any) =>
       rootApi.weatherByName(removeTones(city.name)),
     );
@@ -85,8 +85,8 @@ const DisplayTempScreen = () => {
           responsives[responsives.length - 1].data.error.info,
         );
       } else {
-        const cloneLocations = locations;
-        const cloneTemperatures = temperatures;
+        const cloneLocations: LocationType[] = [];
+        const cloneTemperatures: TemperatureType[] = [];
         responsives.map(responsive => {
           console.log(responsive);
 
@@ -94,6 +94,8 @@ const DisplayTempScreen = () => {
           cloneLocations.push(location);
           cloneTemperatures.push(current);
         });
+        console.log(cloneLocations, cloneTemperatures);
+
         setLocations(cloneLocations);
         setTemperatures(cloneTemperatures);
         ref.current.scrollTo({
@@ -113,6 +115,13 @@ const DisplayTempScreen = () => {
     }
   }, [place]);
 
+  useEffect(() => {
+    console.log(locations);
+  }, [locations]);
+
+  useEffect(() => {
+    console.log(temperatures);
+  }, [temperatures]);
   return (
     <>
       <StatusBar
@@ -137,8 +146,15 @@ const DisplayTempScreen = () => {
       {!isLoading && (
         <View style={styles.overLayLoading}>
           <View style={styles.containerLoadding}>
-            <Text style={{color: '#e29baa', marginBottom: 6}}>Loadding...</Text>
-            <ActivityIndicator size="large" color="#e29baa" />
+            <Text
+              style={{
+                color: rootColor.whiteColor,
+                marginBottom: 6,
+                fontFamily: 'BalooChettan2-SemiBold',
+              }}>
+              Loadding...
+            </Text>
+            <ActivityIndicator size="large" color={rootColor.whiteColor} />
           </View>
         </View>
       )}

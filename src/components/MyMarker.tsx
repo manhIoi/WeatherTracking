@@ -3,6 +3,8 @@ import {useRef} from 'react';
 import {View, Text} from 'react-native';
 import {Marker} from 'react-native-maps';
 import {Callout} from 'react-native-maps';
+import rootColor from '../constants/color';
+import rootFont from '../constants/fonts';
 import {StateType} from '../types';
 
 const MyMarker = ({
@@ -43,8 +45,9 @@ const MyMarker = ({
       <Callout onPress={callbackCallout}>
         <Text
           style={{
-            color: '#e29baa',
+            color: rootColor.rootColor,
             maxWidth: 100,
+            fontFamily: rootFont.regular,
           }}>
           Xem thời tiết {state.name}
         </Text>

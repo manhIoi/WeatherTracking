@@ -4,6 +4,7 @@ import {TemperatureType} from '../types';
 import FontAweSome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialC from 'react-native-vector-icons/MaterialCommunityIcons';
+import rootFont from '../constants/fonts';
 
 interface DescriptionPropsType {
   temperature: TemperatureType;
@@ -89,8 +90,8 @@ const styles = StyleSheet.create({
   title: {
     marginLeft: 20,
     marginBottom: 20,
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 24,
+    fontFamily: rootFont.bold,
     color: '#fff',
   },
   descriptionContainer: {
@@ -103,6 +104,8 @@ const styles = StyleSheet.create({
   text: {
     color: '#fff',
     marginLeft: 8,
+    fontSize: 16,
+    fontFamily: rootFont.regular,
   },
   containerText: {
     flexDirection: 'row',

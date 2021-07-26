@@ -3,8 +3,8 @@ import {View, Text} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import ChooseScreen from '../screens/ChooseScreen';
 import DisplayTempScreen from '../screens/DisplayTempScreen';
-import PlacesScreen from '../screens/PlacesScreen';
 import PlacesStack from './PlacesStack';
+import rootFont from '../constants/fonts';
 
 const Drawer = createDrawerNavigator();
 
@@ -15,11 +15,12 @@ const MainDrawer = () => {
         headerShown: false,
         drawerActiveBackgroundColor: '#fff',
         drawerLabelStyle: {
-          fontWeight: 'bold',
+          fontFamily: rootFont.semiBold,
+          fontSize: 15,
         },
-        drawerActiveTintColor: '#e29baa',
+        drawerActiveTintColor: '#242424',
         drawerInactiveTintColor: '#fff',
-        drawerStyle: {backgroundColor: '#e29baa'},
+        drawerStyle: {backgroundColor: '#242424'},
       }}>
       <Drawer.Screen
         name="Display Temp Screen"

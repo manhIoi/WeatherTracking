@@ -56,6 +56,13 @@ interface PlaceType {
   cityIndex: number | null;
 }
 
+interface RootStackParamList {
+  PlacesStack: {
+    placeSelected: PlaceType | null;
+  };
+  DisplayTempScreen: undefined;
+}
+
 export type {
   LocationType,
   TemperatureType,
@@ -63,4 +70,5 @@ export type {
   StateType,
   CityType,
   PlaceType,
+  RootStackParamList,
 };

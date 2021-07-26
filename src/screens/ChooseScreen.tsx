@@ -11,6 +11,7 @@ import {useDispatch} from 'react-redux';
 import {setPlace} from '../redux/actions/placeAction';
 import {PlaceType} from '../types';
 import {StackNavigationProp} from '@react-navigation/stack';
+import rootColor from '../constants/color';
 
 const ChooseScreen = () => {
   const [listState, setListState] = useState(STATE_DATA);
@@ -116,7 +117,7 @@ const ChooseScreen = () => {
             });
           }}
           title="Tiếp tục"
-          styleContainer={{backgroundColor: '#e29baa'}}
+          styleContainer={{backgroundColor: rootColor.rootColor}}
         />
       </View>
     </View>
@@ -136,7 +137,7 @@ const styles = StyleSheet.create({
   textTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#e29baa',
+    color: rootColor.rootColor,
     textDecorationLine: 'underline',
   },
   flatItem: {

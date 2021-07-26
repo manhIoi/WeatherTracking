@@ -8,9 +8,7 @@ import {
 } from 'react-native';
 import MapView, {Callout} from 'react-native-maps';
 import dimensions from '../constants/dimension';
-import {Marker} from 'react-native-maps';
 import STATE_DATA from '../data/state';
-import {ScrollView, TextInput} from 'react-native-gesture-handler';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import Feather from 'react-native-vector-icons/Feather';
 import {StyleSheet} from 'react-native';
@@ -20,6 +18,8 @@ import {PlaceType, StateType} from '../types';
 import {DrawerNavigationProp} from '@react-navigation/drawer';
 import MyMarker from '../components/MyMarker';
 import {useRef} from 'react';
+import rootColor from '../constants/color';
+import rootFont from '../constants/fonts';
 
 const PlacesScreen = () => {
   const navigation = useNavigation<DrawerNavigationProp<any>>();
@@ -116,9 +116,9 @@ const PlacesScreen = () => {
 const styles = StyleSheet.create({
   headerContainer: {
     width: '100%',
-    height: 120,
+    height: 100,
     paddingTop: 25,
-    backgroundColor: '#e29baa',
+    backgroundColor: rootColor.rootColor,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
