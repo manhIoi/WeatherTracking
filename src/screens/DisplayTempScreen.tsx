@@ -80,10 +80,10 @@ const DisplayTempScreen = () => {
 
     if (responsives.length) {
       if (responsives[responsives.length - 1].data.error) {
-        Alert.alert(
-          'Error',
-          responsives[responsives.length - 1].data.error.info,
-        );
+        // Alert.alert(
+        //   'Error',
+        //   responsives[responsives.length - 1].data.error.info,
+        // );
       } else {
         const cloneLocations: LocationType[] = [];
         const cloneTemperatures: TemperatureType[] = [];

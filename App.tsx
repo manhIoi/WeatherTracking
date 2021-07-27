@@ -16,6 +16,7 @@ import {LogBox} from 'react-native';
 
 const App = () => {
   LogBox.ignoreAllLogs();
+
   return (
     <NavigationContainer>
       <Root />

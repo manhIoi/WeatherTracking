@@ -1,5 +1,11 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import {ScrollView, TextInput} from 'react-native-gesture-handler';
 import dimensions from '../constants/dimension';
 import Feather from 'react-native-vector-icons/Feather';
@@ -12,11 +18,13 @@ import {useEffect} from 'react';
 import {CityType, StateType} from '../types';
 import rootColor from '../constants/color';
 import rootFont from '../constants/fonts';
+import standardize from '../utils/standardize';
 
 const SearchScreen = () => {
   const navigation = useNavigation<StackNavigationProp<any>>();
   const [searchInput, setSearchInput] = useState<string>('');
   const [places, setPlaces] = useState<StateType[]>([]);
+  const [isLoadingPlaces, setIsLoadingPlaces] = useState(true);
 
   const fakeApi = async () => {
     try {
@@ -24,6 +32,7 @@ const SearchScreen = () => {
         return setTimeout(() => {
           console.log('is Faking');
           setPlaces(STATE_DATA);
+          setIsLoadingPlaces(false);
         }, 500);
       });
       console.log('fake done');
@@ -40,16 +49,16 @@ const SearchScreen = () => {
   }, []);
 
   useEffect(() => {
-    // filter places
     let clonePlaces: StateType[] = [];
-    // console.log(searchInput, '-----------------------------------------------');
     STATE_DATA.forEach(place => {
       let cloneCities: CityType[] = [];
 
       place.cities.forEach(citi => {
         if (
-          (citi.name + ' ' + place.name).search(searchInput) > -1 ||
-          (place.name + ' ' + citi.name).search(searchInput) > -1
+          standardize(citi.name + place.name).search(standardize(searchInput)) >
+            -1 ||
+          standardize(place.name + citi.name).search(standardize(searchInput)) >
+            -1
         ) {
           cloneCities.push(citi);
         }
@@ -61,7 +70,6 @@ const SearchScreen = () => {
         });
       }
     });
-    // console.log(clonePlaces);
     setPlaces(clonePlaces);
   }, [searchInput]);
 
@@ -89,8 +97,18 @@ const SearchScreen = () => {
           />
         </View>
       </View>
-
       <ScrollView style={{width: dimensions.widthWindow}}>
+        {isLoadingPlaces && (
+          <View
+            style={{
+              height: 100,
+              width: dimensions.widthWindow,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <ActivityIndicator size="large" color={rootColor.rootColor} />
+          </View>
+        )}
         {places &&
           places.map(place =>
             place.cities.map(citi => (

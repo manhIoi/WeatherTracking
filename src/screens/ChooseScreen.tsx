@@ -2,7 +2,7 @@ import React, {useLayoutEffect} from 'react';
 import {useState} from 'react';
 import {View, Text, TouchableOpacity, FlatList, StatusBar} from 'react-native';
 import MyButton from '../components/MyButton';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {useEffect} from 'react';
 import STATE_DATA from '../data/state';
 import {StyleSheet} from 'react-native';
@@ -23,15 +23,14 @@ const ChooseScreen = () => {
   });
   const navigation = useNavigation<StackNavigationProp<any>>();
   const dispatch = useDispatch();
+  const route = useRoute();
 
   const initScreen = async () => {
     try {
       const place = await AsyncStorage.getItem('placeDefault');
-
       if (place) {
         dispatch(setPlace(JSON.parse(place)));
         navigation.replace('Main Drawer');
-        // navigation.navigate('Main Drawer');
       }
     } catch (error) {
       console.log(error);
@@ -55,7 +54,9 @@ const ChooseScreen = () => {
   }, [selectedValue]);
 
   useLayoutEffect(() => {
-    initScreen();
+    if (!route.params?.setting) {
+      initScreen();
+    }
   }, []);
 
   return (
