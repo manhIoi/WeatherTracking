@@ -100,7 +100,7 @@ const SearchScreen = () => {
             cloneCities.push(citi);
           }
         });
-        if (cloneCities) {
+        if (cloneCities.length) {
           clonePlaces.push({
             ...place,
             cities: cloneCities,
@@ -156,7 +156,7 @@ const SearchScreen = () => {
             <ActivityIndicator size="large" color={rootColor.rootColor} />
           ) : null
         }
-        onEndReached={handleLoadMore}
+        // onEndReached={handleLoadMore}
         renderItem={({item}) =>
           item.cities.map((citi: CityType) => (
             <TouchableOpacity
@@ -177,28 +177,6 @@ const SearchScreen = () => {
           ))
         }
       />
-      {/* <ScrollView style={{width: dimensions.widthWindow}}>
-        {places &&
-          places.map(place =>
-            place.cities.map(citi => (
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate('Places Screen', {placeSelected: place})
-                }
-                style={styles.placeItem}>
-                <Feather
-                  name="map-pin"
-                  size={18}
-                  color="#111"
-                  style={styles.placeItemIcon}
-                />
-                <Text style={styles.text}>
-                  {place.name}, {citi.name}
-                </Text>
-              </TouchableOpacity>
-            )),
-          )}
-      </ScrollView> */}
     </View>
   );
 };
