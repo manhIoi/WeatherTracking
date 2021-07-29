@@ -24,10 +24,8 @@ const SearchScreen = () => {
   const navigation = useNavigation<StackNavigationProp<any>>();
   const [searchInput, setSearchInput] = useState<string>('');
   const [places, setPlaces] = useState<StateType[]>([]);
-  const [placesLoadded, setPlacesLoadded] = useState<StateType[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isLoadingPlaces, setIsLoadingPlaces] = useState(true);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const inputRef = useRef<TextInput>(null);
 
   const fakeApi = async () => {
@@ -35,10 +33,7 @@ const SearchScreen = () => {
       const test = await new Promise(() => {
         return setTimeout(() => {
           console.log('is Faking');
-          const resPlaces = STATE_DATA.slice(0, limit * currentPage);
-          console.log(resPlaces);
-          setPlacesLoadded(resPlaces);
-          setPlaces(resPlaces);
+          setPlaces(STATE_DATA);
           setIsLoadingPlaces(false);
         }, 500);
       });
@@ -46,25 +41,6 @@ const SearchScreen = () => {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const getData = () => {
-    return new Promise(() => {
-      setTimeout(() => {
-        console.log('load more');
-        const responsive = STATE_DATA.slice(
-          limit * currentPage,
-          limit * (currentPage + 1),
-        );
-        setCurrentPage(currentPage + 1);
-        setPlaces(places.concat(responsive));
-      }, 200);
-    });
-  };
-
-  const handleLoadMore = async () => {
-    setIsLoadingMore(true);
-    const test = await getData().then(() => console.log('load done'));
   };
 
   useEffect(() => {
@@ -148,17 +124,20 @@ const SearchScreen = () => {
       <FlatList
         style={{width: dimensions.widthWindow}}
         data={places}
-        ListFooterComponent={() =>
-          isLoadingMore ? (
-            <ActivityIndicator size="large" color={rootColor.rootColor} />
-          ) : null
-        }
+        // ListFooterComponent={() =>
+        //   isLoadingMore ? (
+        //     <ActivityIndicator size="large" color={rootColor.rootColor} />
+        //   ) : null
+        // }
         // onEndReached={handleLoadMore}
         renderItem={({item}) =>
-          item.cities.map((citi: CityType) => (
+          item.cities.map((citi: CityType, index: number) => (
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('Places Screen', {placeSelected: item})
+                navigation.navigate('Places Screen', {
+                  placeSelected: item,
+                  cityIndex: index,
+                })
               }
               style={styles.placeItem}>
               <Feather
