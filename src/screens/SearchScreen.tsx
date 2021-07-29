@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -6,20 +6,17 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import {FlatList, ScrollView, TextInput} from 'react-native-gesture-handler';
+import {FlatList, TextInput} from 'react-native-gesture-handler';
 import dimensions from '../constants/dimension';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import STATE_DATA from '../data/state';
-import {useState} from 'react';
-import {useEffect} from 'react';
 import {CityType, StateType} from '../types';
 import rootColor from '../constants/color';
 import rootFont from '../constants/fonts';
 import standardize from '../utils/standardize';
-import {useRef} from 'react';
 
 const limit = 2;
 

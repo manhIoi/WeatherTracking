@@ -98,7 +98,7 @@ const DisplayTempScreen = () => {
 
         setLocations(cloneLocations);
         setTemperatures(cloneTemperatures);
-        ref.current.scrollTo({
+        ref.current?.scrollTo({
           x: place.cityIndex * dimensions.widthWindow,
           y: 0,
           animated: true,

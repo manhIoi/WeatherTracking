@@ -5,6 +5,7 @@ import {
 } from '@react-navigation/stack';
 import ChooseScreen from '../screens/ChooseScreen';
 import MainDrawer from './MainDrawer';
+import SplashScreen from '../screens/SplashScreen';
 
 const Stack = createStackNavigator();
 
@@ -15,8 +16,9 @@ const Root = () => {
         headerShown: false,
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
       }}>
+      <Stack.Screen name="Splash Screen" component={SplashScreen} />
       <Stack.Screen
-        name="Choose SCreen"
+        name="Choose Screen"
         component={ChooseScreen}
         options={{
           headerShown: true,

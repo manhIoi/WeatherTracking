@@ -47,7 +47,7 @@ const MyDrawer = ({...props}: DrawerContentComponentProps) => {
             color: rootColor.whiteColor,
             fontFamily: rootFont.semiBold,
           }}
-          onPress={() => navigation.navigate('Choose SCreen', {setting: true})}
+          onPress={() => navigation.navigate('Choose Screen', {setting: true})}
         />
       </View>
     </View>

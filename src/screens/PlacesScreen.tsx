@@ -92,6 +92,7 @@ const PlacesScreen = () => {
           center: {latitude: 16.749, longitude: 107.185},
           pitch: 0.8,
           heading: 0.8,
+          altitude: 1000,
         }}
         initialRegion={{
           latitude: 16.749,

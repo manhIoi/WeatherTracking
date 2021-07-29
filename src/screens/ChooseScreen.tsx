@@ -1,15 +1,15 @@
-import React, {useLayoutEffect} from 'react';
+import React from 'react';
 import {useState} from 'react';
 import {View, Text, TouchableOpacity, FlatList, StatusBar} from 'react-native';
 import MyButton from '../components/MyButton';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {useEffect} from 'react';
 import STATE_DATA from '../data/state';
 import {StyleSheet} from 'react-native';
 import {AsyncStorage} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {setPlace} from '../redux/actions/placeAction';
-import {PlaceType} from '../types';
+import {CityType, PlaceType} from '../types';
 import {StackNavigationProp} from '@react-navigation/stack';
 import rootColor from '../constants/color';
 
@@ -23,24 +23,14 @@ const ChooseScreen = () => {
   });
   const navigation = useNavigation<StackNavigationProp<any>>();
   const dispatch = useDispatch();
-  const route = useRoute();
-
-  const initScreen = async () => {
-    try {
-      const place = await AsyncStorage.getItem('placeDefault');
-      if (place) {
-        dispatch(setPlace(JSON.parse(place)));
-        navigation.replace('Main Drawer');
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const savePlace = async () => {
     try {
       await AsyncStorage.setItem('placeDefault', JSON.stringify(selectedValue));
       dispatch(setPlace(selectedValue));
+      navigation.navigate('Main Drawer', {
+        screen: 'Display Temp Screen',
+      });
     } catch (error) {
       console.log(error);
     }
@@ -52,12 +42,6 @@ const ChooseScreen = () => {
       setListCity(selectedValue.state.cities);
     }
   }, [selectedValue]);
-
-  useLayoutEffect(() => {
-    if (!route.params?.setting) {
-      initScreen();
-    }
-  }, []);
 
   return (
     <View style={styles.screen}>
@@ -93,7 +77,13 @@ const ChooseScreen = () => {
               <FlatList
                 data={listCity}
                 style={{flex: 1}}
-                renderItem={({item, index}) => (
+                renderItem={({
+                  item,
+                  index,
+                }: {
+                  item: CityType;
+                  index: number;
+                }) => (
                   <TouchableOpacity
                     onPress={() =>
                       setSelectedValue({
@@ -111,12 +101,7 @@ const ChooseScreen = () => {
         </View>
 
         <MyButton
-          callback={() => {
-            savePlace();
-            navigation.navigate('Main Drawer', {
-              screen: 'Display Temp Screen',
-            });
-          }}
+          callback={() => savePlace()}
           title="Tiếp tục"
           styleContainer={{backgroundColor: rootColor.rootColor}}
         />

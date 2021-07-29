@@ -51,16 +51,13 @@ interface StateType {
   name: string;
 }
 interface PlaceType {
-  state: StateType | {};
-  city: CityType | {};
+  state: StateType | any;
+  city: CityType | any;
   cityIndex: number | null;
 }
 
-interface RootStackParamList {
-  PlacesStack: {
-    placeSelected: PlaceType | null;
-  };
-  DisplayTempScreen: undefined;
+interface PlaceStack {
+  PlacesCreen: {placeSelected: PlaceType};
 }
 
 export type {
@@ -70,5 +67,5 @@ export type {
   StateType,
   CityType,
   PlaceType,
-  RootStackParamList,
+  PlaceStack,
 };

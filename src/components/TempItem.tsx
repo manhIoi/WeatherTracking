@@ -13,6 +13,7 @@ interface TempItemProps {
 }
 
 const TempItem = ({temperature, location}: TempItemProps) => {
+  const randomImage = Math.random();
   let today = new Date();
   const formatDate =
     String(today.getDate()).padStart(2, '0') +
@@ -25,11 +26,11 @@ const TempItem = ({temperature, location}: TempItemProps) => {
   return (
     <ImageBackground
       source={
-        Math.random() > 0.25
+        randomImage < 0.25
           ? rootImages.first
-          : Math.random() > 0.5
+          : randomImage < 0.5
           ? rootImages.second
-          : Math.random() > 0.75
+          : randomImage < 0.75
           ? rootImages.third
           : rootImages.four
       }
