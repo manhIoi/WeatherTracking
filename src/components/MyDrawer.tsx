@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Animated} from 'react-native';
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -15,7 +15,7 @@ import rootColor from '../constants/color';
 const MyDrawer = ({...props}: DrawerContentComponentProps) => {
   const navigation = useNavigation<DrawerNavigationProp<any>>();
   return (
-    <View style={{flex: 1}}>
+    <Animated.View style={{flex: 1}}>
       <View
         style={{
           marginTop: 50,
@@ -50,7 +50,7 @@ const MyDrawer = ({...props}: DrawerContentComponentProps) => {
           onPress={() => navigation.navigate('Choose Screen', {setting: true})}
         />
       </View>
-    </View>
+    </Animated.View>
   );
 };
 

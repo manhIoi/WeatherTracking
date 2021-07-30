@@ -1,14 +1,16 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text} from 'react-native';
 import {
   createDrawerNavigator,
   DrawerContentComponentProps,
+  useDrawerProgress,
 } from '@react-navigation/drawer';
 import DisplayTempScreen from '../screens/DisplayTempScreen';
 import PlacesStack from './PlacesStack';
 import rootFont from '../constants/fonts';
 import MyDrawer from '../components/MyDrawer';
 import Feather from 'react-native-vector-icons/Feather';
+import Animated from 'react-native-reanimated';
 
 const Drawer = createDrawerNavigator();
 
@@ -25,6 +27,7 @@ const MainDrawer = () => {
           fontFamily: rootFont.semiBold,
           fontSize: 15,
         },
+        drawerType: 'slide',
         drawerActiveTintColor: '#242424',
         drawerInactiveTintColor: '#fff',
         drawerStyle: {backgroundColor: '#242424'},

@@ -24,39 +24,6 @@ import Feather from 'react-native-vector-icons/Feather';
 import {DrawerNavigationProp} from '@react-navigation/drawer';
 import rootColor from '../constants/color';
 
-const tempClone = {
-  cloudcover: 50,
-  feelslike: 37,
-  humidity: 56,
-  is_day: 'no',
-  observation_time: '11:53 AM',
-  precip: 0,
-  pressure: 1000,
-  temperature: 32,
-  uv_index: 8,
-  visibility: 10,
-  weather_code: 116,
-  weather_descriptions: ['Partly cloudy'],
-  weather_icons: [
-    'https://assets.weatherstack.com/images/wsymbols01_png_64/wsymbol_0004_black_low_cloud.png',
-  ],
-  wind_degree: 190,
-  wind_dir: 'S',
-  wind_speed: 9,
-};
-
-const locationClone = {
-  country: 'Vietnam',
-  lat: '16.068',
-  localtime: '2021-07-25 18:53',
-  localtime_epoch: 1627239180,
-  lon: '108.221',
-  name: 'Da Nang',
-  region: '',
-  timezone_id: 'Asia/Ho_Chi_Minh',
-  utc_offset: '7.0',
-};
-
 const DisplayTempScreen = () => {
   const navigation = useNavigation<DrawerNavigationProp<any>>();
   const [locations, setLocations] = useState<LocationType[]>([]);
@@ -230,5 +197,38 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+const tempClone = {
+  cloudcover: 50,
+  feelslike: 37,
+  humidity: 56,
+  is_day: 'no',
+  observation_time: '11:53 AM',
+  precip: 0,
+  pressure: 1000,
+  temperature: 32,
+  uv_index: 8,
+  visibility: 10,
+  weather_code: 116,
+  weather_descriptions: ['Partly cloudy'],
+  weather_icons: [
+    'https://assets.weatherstack.com/images/wsymbols01_png_64/wsymbol_0004_black_low_cloud.png',
+  ],
+  wind_degree: 190,
+  wind_dir: 'S',
+  wind_speed: 9,
+};
+
+const locationClone = {
+  country: 'Vietnam',
+  lat: '16.068',
+  localtime: '2021-07-25 18:53',
+  localtime_epoch: 1627239180,
+  lon: '108.221',
+  name: 'Da Nang',
+  region: '',
+  timezone_id: 'Asia/Ho_Chi_Minh',
+  utc_offset: '7.0',
+};
 
 export default DisplayTempScreen;
