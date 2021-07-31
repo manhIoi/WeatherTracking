@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, Animated} from 'react-native';
 import {
   DrawerContentScrollView,
@@ -11,11 +11,31 @@ import Feather from 'react-native-vector-icons/Feather';
 import rootFont from '../constants/fonts';
 import {useNavigation} from '@react-navigation/native';
 import rootColor from '../constants/color';
+import {StyleSheet} from 'react-native';
+import dimensions from '../constants/dimension';
+
+const listDrawerItem = [
+  {
+    name: 'Display Temp Screen',
+    label: 'Xem thời tiết',
+    icon: (color: string) => <Feather name="cloud" size={20} color={color} />,
+  },
+  {
+    name: 'Places Stack',
+    label: 'Chọn vị trí',
+    icon: (color: string) => <Feather name="map" size={20} color={color} />,
+  },
+];
 
 const MyDrawer = ({...props}: DrawerContentComponentProps) => {
   const navigation = useNavigation<DrawerNavigationProp<any>>();
+  const [isFocused, setIsFocused] = useState(0);
+
   return (
-    <Animated.View style={{flex: 1}}>
+    <Animated.View
+      style={{
+        flex: 1,
+      }}>
       <View
         style={{
           marginTop: 50,
@@ -32,13 +52,25 @@ const MyDrawer = ({...props}: DrawerContentComponentProps) => {
         </Text>
       </View>
       <DrawerContentScrollView style={{flex: 1}}>
-        <DrawerItemList {...props} />
+        {listDrawerItem.map((drawerItem, index) => (
+          <DrawerItem
+            key={drawerItem.name}
+            label={drawerItem.label}
+            onPress={() => {
+              setIsFocused(index);
+              navigation.navigate(drawerItem.name);
+            }}
+            inactiveTintColor={rootColor.whiteColor}
+            activeTintColor={rootColor.rootColor}
+            activeBackgroundColor={rootColor.whiteColor}
+            labelStyle={styles.label}
+            focused={isFocused === index}
+            icon={({color}) => drawerItem.icon(color)}
+          />
+        ))}
       </DrawerContentScrollView>
       <View>
         <DrawerItem
-          style={{
-            marginBottom: 20,
-          }}
           label="Chỉnh sửa"
           icon={() => (
             <Feather name="settings" size={20} color={rootColor.whiteColor} />
@@ -53,5 +85,13 @@ const MyDrawer = ({...props}: DrawerContentComponentProps) => {
     </Animated.View>
   );
 };
+
+const styles = StyleSheet.create({
+  label: {
+    fontFamily: rootFont.semiBold,
+    fontSize: 16,
+    marginLeft: -12,
+  },
+});
 
 export default MyDrawer;

@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
+  StatusBar,
 } from 'react-native';
 import {FlatList, TextInput} from 'react-native-gesture-handler';
 import dimensions from '../constants/dimension';
@@ -87,6 +88,7 @@ const SearchScreen = () => {
 
   return (
     <View style={styles.screen}>
+      <StatusBar backgroundColor={rootColor.rootColor} />
       <View style={styles.headerBox}>
         <TouchableOpacity
           style={styles.backBtn}
@@ -124,12 +126,7 @@ const SearchScreen = () => {
       <FlatList
         style={{width: dimensions.widthWindow}}
         data={places}
-        // ListFooterComponent={() =>
-        //   isLoadingMore ? (
-        //     <ActivityIndicator size="large" color={rootColor.rootColor} />
-        //   ) : null
-        // }
-        // onEndReached={handleLoadMore}
+        keyExtractor={(item: StateType) => item.name}
         renderItem={({item}) =>
           item.cities.map((citi: CityType, index: number) => (
             <TouchableOpacity

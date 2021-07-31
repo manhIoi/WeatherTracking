@@ -3,23 +3,31 @@ import {View, Text} from 'react-native';
 import {
   createDrawerNavigator,
   DrawerContentComponentProps,
-  useDrawerProgress,
 } from '@react-navigation/drawer';
-import DisplayTempScreen from '../screens/DisplayTempScreen';
-import PlacesStack from './PlacesStack';
 import rootFont from '../constants/fonts';
 import MyDrawer from '../components/MyDrawer';
-import Feather from 'react-native-vector-icons/Feather';
-import Animated from 'react-native-reanimated';
+import ScreensStack from './ScreensStack';
+import rootColor from '../constants/color';
+import dimensions from '../constants/dimension';
 
 const Drawer = createDrawerNavigator();
 
 const MainDrawer = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <Drawer.Navigator
-      drawerContent={(props: DrawerContentComponentProps) => (
-        <MyDrawer {...props} />
-      )}
+      drawerContent={(props: DrawerContentComponentProps) => {
+        const {history} = props.state;
+        const lastHistory = history[history.length - 1];
+        if (lastHistory?.type === 'drawer') {
+          setIsOpen(true);
+        } else {
+          setIsOpen(false);
+        }
+
+        return <MyDrawer {...props} />;
+      }}
       screenOptions={{
         headerShown: false,
         drawerActiveBackgroundColor: '#fff',
@@ -28,30 +36,16 @@ const MainDrawer = () => {
           fontSize: 15,
         },
         drawerType: 'slide',
-        drawerActiveTintColor: '#242424',
-        drawerInactiveTintColor: '#fff',
-        drawerStyle: {backgroundColor: '#242424'},
+        drawerStyle: {
+          backgroundColor: '#242424',
+          width: dimensions.widthWindow > 400 ? '50%' : '70%',
+        },
+        sceneContainerStyle: {backgroundColor: '#242424'},
+        overlayColor: 'transparent',
       }}>
-      <Drawer.Screen
-        name="Display Temp Screen"
-        component={DisplayTempScreen}
-        options={{
-          drawerLabel: 'Thời tiết',
-          drawerIcon: ({color, focused}) => (
-            <Feather name="cloud" size={20} color={color} />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Places Stack"
-        component={PlacesStack}
-        options={{
-          drawerLabel: 'Chọn vị trí',
-          drawerIcon: ({color, focused}) => (
-            <Feather name="map" size={20} color={color} />
-          ),
-        }}
-      />
+      <Drawer.Screen name="Screens Stack">
+        {props => <ScreensStack isOpen={isOpen} />}
+      </Drawer.Screen>
     </Drawer.Navigator>
   );
 };
